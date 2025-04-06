@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="skully.ico">
+    <title>FiReFeast Repeller</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --bg-color: #8b0000;
+            --border-color: #b22222;
+            --HP-color: #ff0000;
+            --text-color: #ffffff;
+            --secondary-bg-color: rgba(0, 0, 0, 0.5);
+            --txt-primary: #ffffff;
+            --txt-secondary: #ffd700;
+            --bg-secondary: rgba(255, 255, 255, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        [data-theme="light"] {
+            --bg-color: var(--gray1);
+            --border-color: var(--gray2);
+            --HP-color: var(--gray3);
+            --text-color: var(--gray6);
+            --secondary-bg-color: rgba(248, 248, 248, 0.8);
+        }
+
+        [data-theme="solar"] {
+            --bg-color: #ffd700;
+            --border-color: #ffa500;
+            --HP-color: #ff4500;
+            --text-color: #000000;
+            --secondary-bg-color: rgba(255, 223, 0, 0.8);
+        }
+
+        :root {
+            --gray0: #f8f8f8;
+            --gray1: #dbe1e8;
+            --gray2: #b2becd;
+            --gray3: #6c7983;
+            --gray4: #454e56;
+            --gray5: #2a2e35;
+            --gray6: #12181b;
+        }
+
+        body {
+            background-image: url("https://media.istockphoto.com/id/1218355494/vector/poker-table-background-in-green-color.jpg?s=612x612&w=0&k=20&c=qJ-IauRqbIhaeQ5CXZxwysghJUm1VE5wW0odCiFt4yg=");
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: 'Cinzel', serif;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: -4rem;
+            height: 100%;
+            width: 4rem;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: left var(--transition-speed), background-color var(--transition-speed);
+            overflow: hidden;
+        }
+
+        .navbar:hover {
+            left: 0;
+            background-color: var(--bg-secondary);
+        }
+
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-item:last-child {
+            margin-top: auto;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            height: 5rem;
+            color: var(--txt-primary);
+            text-decoration: none;
+            filter: grayscale(100%) opacity(0.7);
+            transition: var(--transition-speed);
+            padding-left: 1rem;
+        }
+
+        .nav-link:hover {
+            filter: grayscale(0%) opacity(1);
+            background: var(--bg-secondary);
+            color: var(--txt-secondary);
+        }
+
+        .nav-text {
+            margin-left: 1rem;
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+        }
+
+        .navbar:hover .nav-text {
+            opacity: 1;
+        }
+
+        /* Game-specific theme styles */
+        #game[data-theme="dark"] {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        #game[data-theme="light"] {
+            background-color: var(--gray0);
+            color: var(--gray6);
+        }
+
+        #game[data-theme="solar"] {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-gray-800 to-black text-gray-200 p-10">
+    <!-- Left-side navigation bar -->
+    <nav class="navbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" id="darkTheme" class="nav-link">
+                    <span class="nav-text">Dark Mode</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="lightTheme" class="nav-link">
+                    <span class="nav-text">Light Mode</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="solarTheme" class="nav-link">
+                    <span class="nav-text">Solar Mode</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="game" class="max-w-lg mx-auto bg-gray-900 bg-opacity-75 p-6 rounded-lg shadow-lg" data-theme="dark">
+        <!-- Interface for the BeAst interactions -->
+        <div class="container mx-auto mb-4" id="stats">
+            <span class="stat dragon-text">EXP: <strong><span id="expText">0</span></strong></span>
+            <span class="stat dragon-text">Health: <strong><span id="healthText">100</span></strong></span>
+            <span class="stat dragon-text">Armor: <strong><span id="armorText">10</span></strong></span>
+            <span class="stat dragon-text">Gold: <strong><span id="goldText">50</span></strong></span>
+        </div>
+        <div id="controls" class="p-5 mt-9 bg-black bg-opacity-50 text-white rounded-lg">
+            <button id="button1" class="dragon-button text-white px-4 py-2 rounded-lg m-2">Go to store</button>
+            <button id="button2" class="dragon-button text-white px-4 py-2 rounded-lg m-2">Go to cave</button>
+            <button id="button3" class="dragon-button text-white px-4 py-2 rounded-lg m-2">Fight FiRedragon</button>
+            <button id="button4" class="dragon-button text-white px-4 py-2 rounded-lg m-2">Special Action</button>
+        </div>
+        <div id="monsterStats" class="mt-4">
+            <span class="stat dragon-text">BeAst Name: <strong><span id="monsterName"></span></strong></span>
+            <div class="health-bar">
+                <div id="monsterHealth" class="health-bar-inner"></div>
+            </div>
+        </div>
+        <div id="text" class="mt-4 dragon-text">
+            Welcome to FiReFeast Repeller. You must defeat the FiRedragon that is preventing people from leaving the
+            town. You are in the town square. Where do you want to go? Use the buttons above.
+        </div>
+    </div>
+
+    <!-- Include your JavaScript files -->
+    <script src="./game.js"></script>
+    <script>
+        const game = document.getElementById('game');
+
+        document.getElementById('darkTheme').addEventListener('click', () => {
+            game.setAttribute('data-theme', 'dark');
+        });
+
+        document.getElementById('lightTheme').addEventListener('click', () => {
+            game.setAttribute('data-theme', 'light');
+        });
+
+        document.getElementById('solarTheme').addEventListener('click', () => {
+            game.setAttribute('data-theme', 'solar');
+        });
+    </script>
+</body>
+
+</html>
