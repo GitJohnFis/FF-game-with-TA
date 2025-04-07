@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    
+
     function dodge() {
         const dodgeChance = Math.random();
         if (dodgeChance > 0.5) {
