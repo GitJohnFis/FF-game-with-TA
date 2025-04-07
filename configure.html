@@ -8,74 +8,59 @@
     <title>FiReFeast Repeller</title>
     <!-- Tailwind CSS CDN -->
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Custom Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <!--Custom Styles-->
     <style>
         :root {
-            --bg-color: #8b0000;
+            font-family: 'Cinzel', serif;
+            --bg-primary: #1e1e23;
+            --bg-secondary: rgba(255, 255, 255, 0.1);
+            --bg-dropdown: #2a2e35;
+            --bg-nav: #12181b;
             --border-color: #b22222;
-            --HP-color: #ff0000;
-            --text-color: #ffffff;
-            --secondary-bg-color: rgba(0, 0, 0, 0.5);
-            --button-outline-color: #ffd700;
-            --button-outline-color-hover: #ffa500;
             --txt-primary: #ffffff;
             --txt-secondary: #ffd700;
-            --bg-secondary: rgba(255, 255, 255, 0.1);
-            --transition-speed: 0.3s;
-        }
-
-        [data-theme="light"] {
-            --bg-color: var(--gray1);
-            --border-color: var(--gray2);
-            --HP-color: var(--gray3);
-            --text-color: var(--gray6);
-            --secondary-bg-color: rgba(248, 248, 248, 0.8);
-        }
-
-        [data-theme="solar"] {
-            --bg-color: #ffd700;
-            --border-color: #ffa500;
-            --HP-color: #ff4500;
-            --text-color: #000000;
-            --secondary-bg-color: rgba(255, 223, 0, 0.8);
-        }
-
-        :root {
-            --gray0: #f8f8f8;
-            --gray1: #dbe1e8;
-            --gray2: #b2becd;
-            --gray3: #6c7983;
-            --gray4: #454e56;
-            --gray5: #2a2e35;
-            --gray6: #12181b;
+            --transition-speed: 600ms;
         }
 
         body {
-            background-image: url("https://media.istockphoto.com/id/1218355494/vector/poker-table-background-in-green-color.jpg?s=612x612&w=0&k=20&c=qJ-IauRqbIhaeQ5CXZxwysghJUm1VE5wW0odCiFt4yg=");
-            background-size: cover;
-            background-attachment: fixed;
-            font-family: 'Cinzel', serif;
-            color: var(--text-color);
+            color: var(--txt-primary);
+            background: var(--bg-primary);
+            transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+            margin: 0;
+            padding: 0;
+        }
+
+        body::-webkit-scrollbar {
+            width: 0.25rem;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #6649b8;
         }
 
         .navbar {
             position: fixed;
             top: 0;
-            left: -4rem;
+            left: 0;
             height: 100%;
-            width: 4rem;
-            background-color: transparent;
+            width: 5rem;
+            background-color: var(--bg-primary);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            transition: left var(--transition-speed), background-color var(--transition-speed);
+            transition: width var(--transition-speed) ease-in-out;
             overflow: hidden;
+            z-index: 50;
         }
 
         .navbar:hover {
-            left: 0;
-            background-color: var(--bg-secondary);
+            width: 16rem;
         }
 
         .navbar-nav {
@@ -85,7 +70,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100%;
+            font-size: 1rem;
         }
 
         .nav-item {
@@ -104,7 +91,6 @@
             text-decoration: none;
             filter: grayscale(100%) opacity(0.7);
             transition: var(--transition-speed);
-            padding-left: 1rem;
         }
 
         .nav-link:hover {
@@ -113,37 +99,114 @@
             color: var(--txt-secondary);
         }
 
-        .nav-text {
+        .link-text {
+            display: none;
             margin-left: 1rem;
-            opacity: 0;
+        }
+
+        .nav-link svg {
+            width: 2rem;
+            min-width: 2rem;
+            margin: 0 1.5rem;
+            transition: width var(--transition-speed), height var(--transition-speed);
+        }
+
+        .navbar:hover .link-text {
+            display: inline;
             transition: opacity var(--transition-speed);
         }
 
-        .navbar:hover .nav-text {
+        .dropdown {
+            position: absolute;
+            width: 500px;
+            opacity: 0;
+            z-index: 2;
+            background: var(--bg-dropdown);
+            border-top: 2px solid var(--border-color);
+            border-bottom-right-radius: 8px;
+            border-bottom-left-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: 3rem;
+            margin-top: 2rem;
+            padding: 0.5rem;
+            box-shadow: rgba(2, 8, 20, 0.1) 0px 0.175em 0.5em;
+            transform: translateX(-40%);
+            transition: opacity 150ms ease-out;
+        }
+
+        .has-dropdown:focus-within .dropdown {
             opacity: 1;
+            pointer-events: auto;
         }
 
-        /* Game-specific theme styles */
-        #game[data-theme="dark"] {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+        .dropdown-item a {
+            width: 100%;
+            height: 100%;
+            font-size: 0.7rem;
+            padding-left: 10px;
+            font-weight: bold;
         }
 
-        #game[data-theme="light"] {
-            background-color: var(--gray0);
-            color: var(--gray6);
+        .dropdown-item a::before {
+            content: ' ';
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
         }
 
-        #game[data-theme="solar"] {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+        @media only screen and (max-width: 600px) {
+            .navbar {
+                bottom: 0;
+                width: 100vw;
+                height: 5rem;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .navbar-nav {
+                flex-direction: row;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+
+            .nav-link svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+
+            main {
+                margin: 0;
+            }
         }
-        .dragon-button {
-            outline: 2px solid var(--button-outline-color);
-            transition: outline-color var(--transition-speed)
-        }
-        .dragon-button:hover {
-            outline-color: var(--txt-secondary);
+
+        @media only screen and (min-width: 600px) {
+            .navbar {
+                top: 0;
+                width: 5rem;
+                height: 100vh;
+            }
+
+            .navbar:hover {
+                width: 16rem;
+            }
+
+            .navbar:hover .logo svg {
+                margin-left: 11rem;
+            }
+
+            .navbar:hover .logo-text {
+                left: 0px;
+            }
         }
     </style>
 </head>
@@ -152,25 +215,50 @@
     <!-- Left-side navigation bar -->
     <nav class="navbar">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" id="darkTheme" class="nav-link">
-                    <span class="nav-text">Dark Mode</span>
+            <!-- Logo -->
+            <li class="logo py-4">
+                <a href="#" class="flex flex-col items-center">
+                    <span class="text-sm font-bold">Agora</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="w-6 h-6">
+                        <path d="M16 144a144 144 0 1 1 288 0A144 144 0 1 1 16 144zM160 80c8.8 0 16-7.2 16-16s-7.2-16-16-16c-53 0-96 43-96 96c0 8.8 7.2 16 16 16s16-7.2 16-16c0-35.3 28.7-64 64-64zM128 480l0-162.9c10.4 1.9 21.1 2.9 32 2.9s21.6-1 32-2.9L192 480c0 17.7-14.3 32-32 32s-32-14.3-32-32z" />
+                    </svg>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#" id="lightTheme" class="nav-link">
-                    <span class="nav-text">Light Mode</span>
+
+            <!-- Dropdown for theme toggle -->
+            <li class="group relative">
+                <a href="#" class="block py-4 px-2 text-center hover:bg-gray-700">Theme</a>
+                <ul class="dropdown">
+                    <li class="dropdown-item"><a id="lightTheme" href="#">Light</a></li>
+                    <li class="dropdown-item"><a id="solarTheme" href="#">Solar</a></li>
+                    <li class="dropdown-item"><a id="darkTheme" href="#">Dark</a></li>
+                </ul>
+            </li>
+
+            <!-- Fire icon -->
+            <li>
+                <a href="#" class="nav-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-6 h-6">
+                        <path d="M153.6 29.9l16-21.3C173.6 3.2 180 0 186.7 0C198.4 0 208 9.6 208 21.3V43.5c0 13.1 5.4 25.7 14.9 34.7L307.6 159C356.4 205.6 384 270.2 384 337.7C384 434 306 512 209.7 512H192C86 512 0 426 0 320v-3.8c0-48.8 19.4-95.6 53.9-130.1l3.5-3.5c4.2-4.2 10-6.6 16-6.6C85.9 176 96 186.1 96 198.6V288c0 35.3 28.7 64 64 64s64-28.7 64-64v-3.9c0-18-7.2-35.3-19.9-48l-38.6-38.6c-24-24-37.5-56.7-37.5-90.7c0-27.7 9-54.8 25.6-76.9z" />
+                    </svg>
+                    <span class="link-text">Fire</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#" id="solarTheme" class="nav-link">
-                    <span class="nav-text">Solar Mode</span>
+
+            <!-- Volcano icon -->
+            <li>
+                <a href="#" class="nav-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-6 h-6">
+                        <path d="M160 144c-35.3 0-64-28.7-64-64s28.7-64 64-64c15.7 0 30 5.6 41.2 15C212.4 12.4 232.7 0 256 0s43.6 12.4 54.8 31C322 21.6 336.3 16 352 16c35.3 0 64 28.7 64 64s-28.7 64-64 64c-14.7 0-28.3-5-39.1-13.3l-32 48C275.3 187 266 192 256 192s-19.3-5-24.9-13.3l-32-48C188.3 139 174.7 144 160 144zM144 352l48.4-24.2c10.2-5.1 21.6-7.8 33-7.8c19.6 0 38.4 7.8 52.2 21.6l32.5 32.5c6.3 6.3 14.9 9.9 23.8 9.9c11.3 0 21.8-5.6 28-15l9.7-14.6-58.9-66.3c-9.1-10.2-22.2-16.1-35.9-16.1l-41.8 0c-13.7 0-26.8 5.9-35.9 16.1l-59.9 67.4L144 352zm19.4-95.8c18.2-20.5 44.3-32.2 71.8-32.2l41.8 0c27.4 0 53.5 11.7 71.8 32.2l150.2 169c8.5 9.5 13.2 21.9 13.2 34.7c0 28.8-23.4 52.2-52.2 52.2L52.2 512C23.4 512 0 488.6 0 459.8c0-12.8 4.7-25.1 13.2-34.7l150.2-169z" />
+                    </svg>
+                    <span class="link-text">Volcano</span>
                 </a>
             </li>
         </ul>
     </nav>
 
-    <div id="game" class="max-w-lg mx-auto bg-gray-900 bg-opacity-75 p-6 rounded-lg shadow-lg" data-theme="dark">
+    <!-- Game content -->
+    <div id="game" class="max-w-lg mx-auto bg-gray-900 bg-opacity-75 p-6 rounded-lg shadow-lg mt-16">
         <!-- Interface for the BeAst interactions -->
         <div class="container mx-auto mb-4" id="stats">
             <span class="stat dragon-text">EXP: <strong><span id="expText">0</span></strong></span>
@@ -198,21 +286,7 @@
 
     <!-- Include your JavaScript files -->
     <script src="./game.js"></script>
-    <script>
-        const game = document.getElementById('game');
-
-        document.getElementById('darkTheme').addEventListener('click', () => {
-            game.setAttribute('data-theme', 'dark');
-        });
-
-        document.getElementById('lightTheme').addEventListener('click', () => {
-            game.setAttribute('data-theme', 'light');
-        });
-
-        document.getElementById('solarTheme').addEventListener('click', () => {
-            game.setAttribute('data-theme', 'solar');
-        });
-    </script>
+    <script src="./gametoggle.js"></script>
 </body>
 
 </html>
