@@ -16,6 +16,8 @@
             --HP-color: #ff0000;
             --text-color: #ffffff;
             --secondary-bg-color: rgba(0, 0, 0, 0.5);
+            --button-outline-color: #ffd700;
+            --button-outline-color-hover: #ffa500;
             --txt-primary: #ffffff;
             --txt-secondary: #ffd700;
             --bg-secondary: rgba(255, 255, 255, 0.1);
@@ -135,6 +137,13 @@
         #game[data-theme="solar"] {
             background-color: var(--bg-color);
             color: var(--text-color);
+        }
+        .dragon-button {
+            outline: 2px solid var(--button-outline-color);
+            transition: outline-color var(--transition-speed)
+        }
+        .dragon-button:hover {
+            outline-color: var(--txt-secondary);
         }
     </style>
 </head>
