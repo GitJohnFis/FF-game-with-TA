@@ -9,6 +9,7 @@
     <!-- Tailwind CSS CDN -->
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!--Custom Styles-->
     <style>
         :root {
@@ -312,10 +313,26 @@
             town. You are in the town square. Where do you want to go? Use the buttons above.
         </div>
     </div>
-
+<h2>Hello lost gamer</h2>
+<button id="t">Click here to hide/show the text</button>
+<!-- <button id="d">Click here to show the text</button> -->
     <!-- Include your JavaScript files -->
     <script src="./game.js"></script>
     <script src="./gametoggle.js"></script>
 </body>
+<script>
+$(document).ready(function() {
+    // slow/fast/milliseconds
+    $('#lightTheme').click(function() {
+        $('body').css('background', 'linear-gradient(to bottom, #ffffff, #f0f0f0)');
+        $('body').css('color', '#000000');
+    });
+    $('#t').click(function() {
+        $('h2').fadeToggle(1000);//hide or show
+        });
 
+    });
+    
+
+</script>
 </html>
