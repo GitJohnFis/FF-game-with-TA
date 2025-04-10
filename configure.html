@@ -313,6 +313,7 @@
             town. You are in the town square. Where do you want to go? Use the buttons above.
         </div>
     </div>
+    <div id="t1" style="background-color: aqua; height: 200px; width: 200px;">This is a line of division</div>
 <h2>Hello lost gamer</h2>
 <button id="t">Click here to hide/show the text</button>
 <!-- <button id="d">Click here to show the text</button> -->
@@ -330,9 +331,15 @@ $(document).ready(function() {
     $('#t').click(function() {
         $('h2').fadeToggle(1000);//hide or show
         });
+$('#t1').mouseenter(function() {
+    alert("You are hovering over the text!");
+});
+$('#t1').mouseleave(function() {
+    alert("You are no longer hovering over the text!");
+});
 
     });
-    
+
 
 </script>
 </html>
